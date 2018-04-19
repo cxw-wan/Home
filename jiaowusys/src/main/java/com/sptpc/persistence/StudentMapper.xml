@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sptpc.persistence.StudentMapper">
+
+  <cache />
+  <select id="getAllStudent" resultType="Student">
+  	select 
+  		userID,
+  		userName,
+  		sex,
+  		birthYear,
+  		grade,
+  		student.collegeID,
+  		collegeName
+  	from student,college 
+  	where student.collegeID=college.collegeID 	
+  </select> 
+  <insert id="insertStudent" parameterType="Student">
+  	insert into student(userID,userName,sex,birthYear,grade,collegeID)
+  	 values(#{userID},
+  	 #{userName},
+  	 #{sex},
+  	 #{birthYear},
+  	 #{grade},
+  	 #{collegeID})
+  </insert>
+  
+  <select id="findStudentByID" parameterType="int" resultType="Student">
+  	select *
+  	from student
+  	where userID = #{userID}
+  </select>
+  
+  <update id="updateStudent" parameterType="int">
+  	update student
+  	set 
+  		userName=#{userName},
+  		sex=#{sex},
+  		birthYear=#{birthYear},
+  		grade=#{grade}
+  	where userID=#{userID}
+  </update>
+   <delete id="deleteStudentCourseByID" parameterType="int">
+  		delete from selectedcourse where studentID = #{id}
+  </delete>
+  <delete id="deletStudentByID" parameterType="int">
+  		delete from student where userID = #{id}
+  </delete>
+  
+ 
+  
+
+</mapper>
