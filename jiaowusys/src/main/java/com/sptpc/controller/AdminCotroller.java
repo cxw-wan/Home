@@ -15,9 +15,11 @@ import com.alibaba.druid.stat.TableStat.Mode;
 import com.sptpc.domain.College;
 import com.sptpc.domain.Course;
 import com.sptpc.domain.Student;
+import com.sptpc.domain.Teacher;
 import com.sptpc.service.CollegeService;
 import com.sptpc.service.CourseService;
 import com.sptpc.service.StudentService;
+import com.sptpc.service.TeacherService;
 
 @Controller
 public class AdminCotroller {
@@ -27,6 +29,8 @@ public class AdminCotroller {
 	private CollegeService collegeService;
 	@Autowired
 	private CourseService courseService;
+	@Autowired
+	private TeacherService teacherService;
 	
 	@RequestMapping("ctr_showStudent")
 	public ModelAndView showStudent(HttpSession session){
@@ -99,6 +103,30 @@ public class AdminCotroller {
 		ModelAndView mv = new ModelAndView("admin/showCourse");
 		mv.addObject("courseList", courseList);
 		return mv;		
+	}
+	//课程信息修改
+	@RequestMapping(value="ctr_editCourse", method=RequestMethod.GET)
+	public ModelAndView editCourse( @RequestParam("id") String userID){
+		ModelAndView mv = new ModelAndView("admin/editCourse");
+		Course course = courseService.findCourseByID(userID);
+		List<College> list = collegeService.getAllCollege();
+		List<Teacher> teacherlist = teacherService.getAllTeacher();
+		mv.addObject("course",course);
+		mv.addObject("collegeList",list);
+		mv.addObject("teacherList",teacherlist);
+		return mv;
+	}
+	//更新课程信息修改
+	@RequestMapping(value="ctr_editCourse", method=RequestMethod.POST)
+	public ModelAndView editCourseSubmit(Course course){
+		ModelAndView mv;
+		int n = courseService.updateCourse(course);
+		if(n==0){
+			mv = new ModelAndView("admin/editCourse");
+		}else{
+			mv = new ModelAndView("redirect:ctr_showCourse");
+		}
+		return mv;
 	}
 	
 }
