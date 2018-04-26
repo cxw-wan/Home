@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.stat.TableStat.Mode;
 import com.sptpc.domain.College;
+import com.sptpc.domain.Course;
 import com.sptpc.domain.Student;
 import com.sptpc.service.CollegeService;
+import com.sptpc.service.CourseService;
 import com.sptpc.service.StudentService;
 
 @Controller
@@ -23,6 +25,8 @@ public class AdminCotroller {
 	private StudentService studentService;
 	@Autowired
 	private CollegeService collegeService;
+	@Autowired
+	private CourseService courseService;
 	
 	@RequestMapping("ctr_showStudent")
 	public ModelAndView showStudent(HttpSession session){
@@ -86,6 +90,15 @@ public class AdminCotroller {
 		ModelAndView mv;
 		mv = new ModelAndView("redirect:ctr_showStudent");
 		return mv;
+	}
+	//课程信息管理
+	@RequestMapping(value="ctr_showCourse")
+	public ModelAndView showCourse(HttpSession session){
+		List<Course> courseList = null;
+		courseList = courseService.getAllCourse();
+		ModelAndView mv = new ModelAndView("admin/showCourse");
+		mv.addObject("courseList", courseList);
+		return mv;		
 	}
 	
 }

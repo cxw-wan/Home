@@ -59,17 +59,17 @@
 					        <tbody>
 							<c:forEach  items="${courseList}" var="item">
 								<tr>
-									<td>${item.courseid}</td>
-									<td>${item.coursename}</td>
-									<td>${item.teacherid}</td>
-									<td>${item.coursetime}</td>
-									<td>${item.classroom}</td>
-									<td>${item.courseweek}</td>
-									<td>${item.coursetype}</td>
+									<td>${item.courseID}</td>
+									<td>${item.courseName}</td>
+									<td>${item.teacherID}</td>
+									<td>${item.courseTime}</td>
+									<td>${item.classRoom}</td>
+									<td>${item.courseWeek}</td>
+									<td>${item.courseType}</td>
 									<td>${item.score}</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='ctr_editCourse?id=${item.courseid}'">修改</button>
-										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='ctr_removeCourse?id=${item.courseid}'">删除</button>
+										<button class="btn btn-default btn-xs btn-info" onClick="location.href='ctr_editCourse?id=${item.courseID}'">修改</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='ctr_removeCourse?id=${item.courseID}'">删除</button>
 										<!--弹出框-->
 									</td>
 								</tr>
