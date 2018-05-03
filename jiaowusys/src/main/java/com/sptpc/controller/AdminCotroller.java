@@ -22,6 +22,7 @@ import com.sptpc.service.StudentService;
 import com.sptpc.service.TeacherService;
 
 @Controller
+
 public class AdminCotroller {
 	@Autowired
 	private StudentService studentService;
@@ -31,7 +32,7 @@ public class AdminCotroller {
 	private CourseService courseService;
 	@Autowired
 	private TeacherService teacherService;
-	
+	//获取学生界面
 	@RequestMapping("ctr_showStudent")
 	public ModelAndView showStudent(HttpSession session){
 		List<Student> studentList = null;
@@ -41,6 +42,7 @@ public class AdminCotroller {
 		
 		return mv;		
 	}
+	//新增学生信息
 	@RequestMapping(value="ctr_addStudent", method=RequestMethod.GET)
 	public ModelAndView addStudent(){
 		ModelAndView mv = new ModelAndView("admin/addStudent");
@@ -49,7 +51,7 @@ public class AdminCotroller {
 		mv.addObject("collegeList", cList);
 		return mv;
 	}
-	
+	//新增学生信息传入数据库
 	@RequestMapping(value="ctr_addStudent", method=RequestMethod.POST)
 	public ModelAndView sumbitStudentForm(Student student){
 		//调用服务层 把表单中的内容(Student对象) 保存到数据库中
@@ -129,4 +131,37 @@ public class AdminCotroller {
 		return mv;
 	}
 	
+	//删除课程信息
+	@RequestMapping(value="ctr_removeCourse", method=RequestMethod.GET)	
+	public ModelAndView removeCourse(@RequestParam("id") String userID){
+		int n = courseService.deleteCourseByID(userID);
+		ModelAndView mv;
+		mv = new ModelAndView("redirect:ctr_showCourse");
+		return mv;
+	}
+	//新增课程信息
+	@RequestMapping(value="ctr_addCourse", method=RequestMethod.GET)
+	public ModelAndView addCourse(){
+		ModelAndView mv = new ModelAndView("admin/addCourse");
+		List<College> list = collegeService.getAllCollege();
+		List<Teacher> teacherlist = teacherService.getAllTeacher();
+		
+		mv.addObject("collegeList",list);
+		mv.addObject("teacherList",teacherlist);
+		return mv;
+	}
+	//新增课程信息上传数据库
+	@RequestMapping(value="ctr_addCourse", method=RequestMethod.POST)
+	public ModelAndView sumbitCourseForm(Course course){
+		//调用服务层 把表单中的内容(Course对象) 保存到数据库中
+		ModelAndView mv;
+		int n = courseService.saveCourse(course);
+		if(n == 0){
+			mv = new ModelAndView("admin/addCourse");
+		}else{
+			mv = new ModelAndView("redirect:ctr_showCourse");
+		}
+		
+		return mv;
+	}
 }
